@@ -1,16 +1,20 @@
 # frozen_string_literal: true
+require 'highline'
+cli = HighLine.new
 WEAPONS = ['rock', 'paper', 'scissors', 'star']
-puts 'Welcome to.....'
-puts 'ROCK, PAPER, SCISSORS, STAR!'
-puts 'Choose Your Weapon:'
-player_weapon = gets
-puts 'You chose...'
-puts player_weapon
+cli.say 'Welcome to.....'
+cli.say 'ROCK, PAPER, SCISSORS, STAR!'
+player_weapon = cli.choose do |menu|
+  menu.prompt = 'Choose Your WEAPON'
+  menu.choices *WEAPONS
+end
+cli.say 'You chose...'
+cli.say player_weapon
 computer_weapon = WEAPONS.sample # totally random!
-puts 'Computer chose...'
-puts computer_weapon
+cli.say 'Computer chose...'
+cli.say computer_weapon
 print computer_weapon
 print ' destroys '
-puts player_weapon
-puts 'YOU LOSE!!!!!'
-puts 'Computer: "Mwahhahaahah! I win again, Sucker!"'
+cli.say player_weapon
+cli.say 'YOU LOSE!!!!!'
+cli.say 'Computer: "Mwahhahaahah! I win again, Sucker!"'
