@@ -4,7 +4,6 @@ require 'highline'
 def clear_terminal
   puts "\e[H\e[2J"
 end
-
 rps = ['rock', 'paper', 'scissors']
 WEAPONS = ['rock', 'paper', 'scissors', '*'].freeze
 MATCHUPS = {
@@ -43,7 +42,7 @@ loop do
   end
   cli.say 'You chose...'
   cli.say player_weapon
-  computer_weapon = WEAPONS.sample # totally random!
+  computer_weapon = rps.sample # totally random!
   cli.say 'Computer chose...'
   cli.say computer_weapon
   result = who_wins(player_weapon, computer_weapon)
