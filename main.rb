@@ -32,25 +32,38 @@ def who_wins(weapon_1, weapon_2)
   MATCHUPS[weapon_1][weapon_2]
 end
 
+REPLAY = ['yes', 'no']
 cli = HighLine.new
 cli.say 'Welcome to.....'
 cli.say 'ROCK, PAPER, SCISSORS, STAR!'
-player_weapon = cli.choose do |menu|
-  menu.prompt = 'Choose Your WEAPON'
-  menu.choices *WEAPONS
+loop do
+  player_weapon = cli.choose do |menu|
+    menu.prompt = 'Choose Your Weapon'
+    menu.choices *WEAPONS
+  end
+  cli.say 'You chose...'
+  cli.say player_weapon
+  computer_weapon = WEAPONS.sample # totally random!
+  cli.say 'Computer chose...'
+  cli.say computer_weapon
+  result = who_wins(player_weapon, computer_weapon)
+  cli.say result
+  case result
+  when 'tie'
+    cli.say "It's a tie!!"
+  when 1
+    cli.say 'You Win!!!!'
+    cli.say 'You are the RPS MASTER!!!'
+  when 2
+    cli.say 'YOU LOSE!!!!!'
+    cli.say 'Computer: "Mwahhahaahah! I win again, Sucker!"'
+  end
+  replay_choice = cli.choose do |menu|
+    menu.prompt = 'Do you want to play again?'
+    menu.choices *REPLAY
+  end
+  break if replay_choice == 'no'
+  cli.terminal
+  puts "\e[H\e[2J"
 end
-cli.say 'You chose...'
-cli.say player_weapon
-computer_weapon = WEAPONS.sample # totally random!
-cli.say 'Computer chose...'
-cli.say computer_weapon
-result = who_wins(player_weapon, computer_weapon)
-cli.say result
-if result == 'tie'
-  cli.say "It's a tie!!"
-elsif result == 1
-  cli.say 'You Win!!!!'
-elsif result == 2
-  cli.say 'YOU LOSE!!!!!'
-  cli.say 'Computer: "Mwahhahaahah! I win again, Sucker!"'
-end
+puts "\e[H\e[2J"
