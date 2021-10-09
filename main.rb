@@ -1,33 +1,27 @@
 # frozen_string_literal: true
 require 'highline'
+
 def clear_terminal
   puts "\e[H\e[2J"
 end
-WEAPONS = ['rock', 'paper', 'scissors', 'star'].freeze
+
+rps = ['rock', 'paper', 'scissors']
+WEAPONS = ['rock', 'paper', 'scissors', '*'].freeze
 MATCHUPS = {
   'rock' => {
     'rock' => 'tie',
     'paper' => 2,
     'scissors' => 1,
-    'star' => 2
   },
   'paper' => {
     'rock' => 1,
     'paper' => 'tie',
     'scissors' => 2,
-    'star' => 2
   },
   'scissors' => {
     'rock' => 2,
     'paper' => 1,
     'scissors' => 'tie',
-    'star' => 2
-  },
-  'star' => {
-    'rock' => 1,
-    'paper' => 1,
-    'scissors' => 1,
-    'star' => 'tie'
   }
 }.freeze
 
@@ -43,6 +37,9 @@ loop do
   player_weapon = cli.choose do |menu|
     menu.prompt = 'Choose Your Weapon'
     menu.choices *WEAPONS
+  end
+  if player_weapon == '*'
+    player_weapon = rps.sample
   end
   cli.say 'You chose...'
   cli.say player_weapon
