@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 require 'highline'
+def clear_terminal
+  puts "\e[H\e[2J"
+end
 WEAPONS = ['rock', 'paper', 'scissors', 'star'].freeze
 MATCHUPS = {
   'rock' => {
@@ -64,6 +67,6 @@ loop do
   end
   break if replay_choice == 'no'
   cli.terminal
-  puts "\e[H\e[2J"
+  clear_terminal
 end
-puts "\e[H\e[2J"
+clear_terminal
