@@ -4,7 +4,10 @@ require 'highline'
 def clear_terminal
   puts "\e[H\e[2J"
 end
-rps = ['rock', 'paper', 'scissors']
+
+player_score = 0
+computer_score = 0
+rps = ['rock', 'paper', 'scissors'].freeze
 WEAPONS = ['rock', 'paper', 'scissors', '*'].freeze
 MATCHUPS = {
   'rock' => {
@@ -49,14 +52,25 @@ loop do
   cli.say result
   case result
   when 'tie'
+    player_score = player_score +1
+    computer_score = computer_score +1
     cli.say "It's a tie!!"
   when 1
+    player_score = player_score +1
     cli.say 'You Win!!!!'
     cli.say 'You are the RPS MASTER!!!'
   when 2
+    computer_score = computer_score + 1
     cli.say 'YOU LOSE!!!!!'
     cli.say 'Computer: "Mwahhahaahah! I win again, Sucker!"'
   end
+  cli.say "" "
+  ...............................
+  |         SCORE               |
+  | Computer:\t #{computer_score}\t\t|
+  | You:\t #{player_score}\t\t|
+  ```````````````````````````````
+" ""
   replay_choice = cli.choose do |menu|
     menu.prompt = 'Do you want to play again?'
     menu.choices *REPLAY
@@ -64,5 +78,9 @@ loop do
   break if replay_choice == 'no'
   cli.terminal
   clear_terminal
+  if replay_choice == 'yes'
+    cli.say 'Yay!'
+    cli.say '😄'
+  end
 end
 clear_terminal
