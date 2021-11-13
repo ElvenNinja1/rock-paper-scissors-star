@@ -7,6 +7,10 @@ class Inventory
     @items += new_items
   end
 
+  def add_quantity(item, quantity)
+    @items += [item] * quantity
+  end
+
   def remove(item)
     i = @items.find_index(item)
     @items.delete_at i unless i.nil?
@@ -21,9 +25,11 @@ class Inventory
   end
 
   def self.default
-    i = self.new
-    i.add('rock', 'paper', 'scissors')
-    i
+    new_inventory = self.new
+    new_inventory.add_quantity("rock", 3)
+    new_inventory.add_quantity("paper", 3)
+    new_inventory.add_quantity("scissors", 3)
+    new_inventory
   end
 
   def empty?
