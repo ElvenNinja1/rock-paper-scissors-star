@@ -39,4 +39,12 @@ class Inventory
   def tally
     @items.tally
   end
+
+  def string_tally
+    tally.map { |item, quantity| "#{item} x#{quantity}" }
+  end
+
+  def item_from_string_tally(tally)
+    tally.gsub(/(.+) x\d+/, '\1')
+  end
 end

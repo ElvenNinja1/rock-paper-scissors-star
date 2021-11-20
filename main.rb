@@ -47,10 +47,11 @@ REPLAY = ['yes', 'no']
 cli = HighLine.new
 cli.say 'Welcome to.....'
 cli.say 'ROCK, PAPER, SCISSORS, STAR!'
+
 loop do
   player_weapon = cli.choose do |menu|
     menu.prompt = 'Choose Your Weapon'
-    menu.choices(*(PLAYER_INVENTORY.tally.map { |item, quantity| "#{item} x#{quantity}" })) { |choice| choice.gsub(/(.+) x\d+/, '\1') }
+    menu.choices(*PLAYER_INVENTORY.string_tally, &PLAYER_INVENTORY.method(:item_from_string_tally))
   end
   if player_weapon == '*'
     player_weapon = rps.sample
