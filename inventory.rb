@@ -26,13 +26,17 @@ class Inventory
 
   def self.default
     new_inventory = self.new
-    new_inventory.add_quantity("rock", 3)
-    new_inventory.add_quantity("paper", 3)
-    new_inventory.add_quantity("scissors", 3)
+    new_inventory.add_quantity("rock", 2)
+    new_inventory.add_quantity("paper", 2)
+    new_inventory.add_quantity("scissors", 2)
     new_inventory
   end
 
   def empty?
     @items.empty?
+  end
+
+  def tally
+    @items.tally
   end
 end
