@@ -51,7 +51,7 @@ cli.say 'ROCK, PAPER, SCISSORS, STAR!'
 loop do
   player_weapon = cli.choose do |menu|
     menu.prompt = 'Choose Your Weapon'
-    menu.choices(*PLAYER_INVENTORY.string_tally, &PLAYER_INVENTORY.method(:item_from_string_tally))
+    PLAYER_INVENTORY.print_choices(menu)
   end
   if player_weapon == '*'
     player_weapon = rps.sample
@@ -93,7 +93,7 @@ loop do
   end
   replay_choice = cli.choose do |menu|
     menu.prompt = 'Do you want to play again?'
-    menu.choices *REPLAY
+    menu.print_choices *REPLAY
   end
   break if replay_choice == 'no'
   cli.terminal
