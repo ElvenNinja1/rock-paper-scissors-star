@@ -49,6 +49,6 @@ class Inventory
   end
 
   def print_choices(menu)
-    menu.print_choices(*string_tally, &method(:item_from_string_tally))
+    menu.choices(*string_tally, &method(:item_from_string_tally))
   end
 end

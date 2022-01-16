@@ -93,7 +93,7 @@ loop do
   end
   replay_choice = cli.choose do |menu|
     menu.prompt = 'Do you want to play again?'
-    menu.print_choices *REPLAY
+    menu.choices *REPLAY
   end
   break if replay_choice == 'no'
   cli.terminal
