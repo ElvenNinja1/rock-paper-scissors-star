@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 require 'highline'
 require_relative 'inventory'
+require_relative 'player'
+require_relative 'computer'
 
 def clear_terminal
   puts "\e[H\e[2J"
 end
 
-PLAYER_INVENTORY = Inventory.default
-COMPUTER_INVENTORY = Inventory.default
-player_score = 0
-computer_score = 0
+PLAYER = Player.new
+COMPUTER = Computer.new
 rps = ['rock', 'paper', 'scissors'].freeze
 WEAPONS = ['rock', 'paper', 'scissors', '*'].freeze
 MATCHUPS = {
@@ -34,11 +34,11 @@ def who_wins(weapon_1, weapon_2)
   winner = MATCHUPS[weapon_1][weapon_2]
   case winner
   when 1
-    COMPUTER_INVENTORY.remove weapon_2
-    PLAYER_INVENTORY.add weapon_2
+    COMPUTER.comp_inventory.remove weapon_2
+    PLAYER.your_inventory.add weapon_2
   when 2
-    PLAYER_INVENTORY.remove weapon_1
-    COMPUTER_INVENTORY.add weapon_1
+    PLAYER.your_inventory.remove weapon_1
+    COMPUTER.comp_inventory.add weapon_1
   end
   winner
 end
@@ -51,43 +51,43 @@ cli.say 'ROCK, PAPER, SCISSORS, STAR!'
 loop do
   player_weapon = cli.choose do |menu|
     menu.prompt = 'Choose Your Weapon'
-    PLAYER_INVENTORY.print_choices(menu)
+    PLAYER.your_inventory.print_choices(menu)
   end
   if player_weapon == '*'
     player_weapon = rps.sample
   end
   cli.say 'You chose...'
   cli.say player_weapon
-  computer_weapon = COMPUTER_INVENTORY.list.sample # totally random!
+  computer_weapon = COMPUTER.comp_inventory.list.sample # totally random!
   cli.say 'Computer chose...'
   cli.say computer_weapon
   result = who_wins(player_weapon, computer_weapon)
   cli.say result
   case result
   when 'tie'
-    player_score = player_score +1
-    computer_score = computer_score +1
+    PLAYER.increase_score
+    COMPUTER.increase_score
     cli.say "It's a tie!!"
   when 1
-    player_score = player_score +1
+    PLAYER.increase_score
     cli.say 'You Win!!!!'
   when 2
-    computer_score = computer_score + 1
+    COMPUTER.increase_score
     cli.say 'YOU LOSE!!!!!'
     cli.say 'Computer: "Mwahhahaahah! I win again, Sucker!"'
   end
   cli.say "" "
   ...............................
   |         SCORE               |
-  | Computer:\t #{computer_score}\t\t|
-  | You:\t #{player_score}\t\t|
+  | Computer:\t #{COMPUTER.score}\t\t|
+  | You:\t #{PLAYER.score}\t\t|
   ```````````````````````````````
 " ""
-  if PLAYER_INVENTORY.empty?
+  if PLAYER.your_inventory.empty?
     cli.say "Game Over!!"
     break
   end
-  if COMPUTER_INVENTORY.empty?
+  if COMPUTER.comp_inventory.empty?
     cli.say "You're the RPSStar MASTER!!!!!"
     break
   end
